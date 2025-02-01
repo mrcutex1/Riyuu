@@ -8,7 +8,7 @@ import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
 from youtubesearchpython.__future__ import VideosSearch
-
+from config import YTPROXY_URL as YTPROXY
 from AnonXMusic.utils.database import is_on_off
 from AnonXMusic.utils.formatters import time_to_seconds
 
@@ -330,14 +330,22 @@ class YouTubeAPI:
         def audio_dl():
             err = False
             try:
-                res = requests.get(f"{YTPROXY}/{vid_id}" ,timeout=5)
+                res = requests.get(f"{YTPROXY}/{vid_id}", timeout=30)
                 response = res.json()
                 if response['status'] == 'success':
-                    print("Downloaded from okflix")
-                    return response['download_link']
+                    fpath = f"downloads/{vid_id}.mp3"
+                    if os.path.exists(fpath):
+                        return fpath
+                    download_link =response['download_link']
+                    data = requests.get(download_link)
+                    if data.status_code == 200:
+                        with open(fpath, "wb") as f:
+                            f.write(data.content)
+                        LOGGER(__name__).info("Downloaded from okflix")
+                        return fpath
                 err = True
             except Exception as e:
-                print(e)
+                LOGGER(__name__).info(e)
                 err = True
             if err:
                 ydl_optssx = {
