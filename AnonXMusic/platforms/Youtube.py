@@ -330,22 +330,14 @@ class YouTubeAPI:
         def audio_dl():
             err = False
             try:
-                res = requests.get(f"{YTPROXY}/{vid_id}", timeout=30)
+                res = requests.get(f"{YTPROXY}/{vid_id}" ,timeout=5)
                 response = res.json()
                 if response['status'] == 'success':
-                    fpath = f"downloads/{vid_id}.mp3"
-                    if os.path.exists(fpath):
-                        return fpath
-                    download_link =response['download_link']
-                    data = requests.get(download_link)
-                    if data.status_code == 200:
-                        with open(fpath, "wb") as f:
-                            f.write(data.content)
-                        LOGGER(__name__).info("Downloaded from okflix")
-                        return fpath
+                    print("Downloaded from okflix")
+                    return response['download_link']
                 err = True
             except Exception as e:
-                LOGGER(__name__).info(e)
+                print(e)
                 err = True
             if err:
                 ydl_optssx = {
@@ -474,4 +466,5 @@ class YouTubeAPI:
         else:
             direct = True
             downloaded_file = await loop.run_in_executor(None, audio_dl)
+            print(downloaded_file)
         return downloaded_file, direct
