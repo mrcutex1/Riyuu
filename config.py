@@ -15,8 +15,13 @@ BOT_TOKEN = getenv("BOT_TOKEN")
 
 # Get your mongo url from cloud.mongodb.com
 MONGO_DB_URI = getenv("MONGO_DB_URI", None)
+# Play duration limit in seconds
+DURATION_LIMIT = int(getenv("DURATION_LIMIT", 60*60*2)) # 2 hours
 
-DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 300))
+# DURATION_LIMIT_MIN
+
+# Video play duration limit in seconds
+VIDEO_DURATION_LIMIT = int(getenv("VIDEO_DURATION_LIMIT", 60*20)) # 20 minutes
 
 # Vars For API End Pont.
 YTPROXY_URL = getenv("YTPROXY_URL", 'https://yt.okflix.top/api') ## E.G https://yt.okflix.top/api/jADTdg-o8i0 Returns Download Info
@@ -60,15 +65,15 @@ PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", 25))
 
 
 # Telegram audio and video file size limit (in bytes)
-TG_AUDIO_FILESIZE_LIMIT = int(getenv("TG_AUDIO_FILESIZE_LIMIT", 204857600))
-TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", 2073741824))
+TG_AUDIO_FILESIZE_LIMIT = int(getenv("TG_AUDIO_FILESIZE_LIMIT", 52428800))
+TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", 20971520))
 # Checkout https://www.gbmb.org/mb-to-bytes for converting mb to bytes
 
 PRIVATE_BOT_MODE_MEM = int(getenv("PRIVATE_BOT_MODE_MEM", 1))
 
 TUBED_API = getenv("TUBED_API" , None)
-CACHE_DURATION = int(getenv("CACHE_DURATION" , "86400"))  #60*60*24
-CACHE_SLEEP = int(getenv("CACHE_SLEEP" , "3600"))   #60*60
+CACHE_DURATION = int(getenv("CACHE_DURATION" , "3600"))  #60*60*24
+CACHE_SLEEP = int(getenv("CACHE_SLEEP" , "1800"))   #60*60
 
 
 # Get your pyrogram v2 session from @StringFatherBot on Telegram
@@ -110,12 +115,6 @@ SPOTIFY_PLAYLIST_IMG_URL = "https://graph.org/file/0bb6f36796d496b4254ff.jpg"
 
 
 
-def time_to_seconds(time):
-    stringt = str(time)
-    return sum(int(x) * 60**i for i, x in enumerate(reversed(stringt.split(":"))))
-
-
-DURATION_LIMIT = int(time_to_seconds(f"{DURATION_LIMIT_MIN}:360"))
 
 
 if SUPPORT_CHANNEL:

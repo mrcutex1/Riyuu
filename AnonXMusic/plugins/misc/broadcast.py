@@ -6,7 +6,7 @@ from pyrogram.types import Message
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
 
-from AnonXMusic import app
+from AnonXMusic import app, LOGGER
 from AnonXMusic.misc import SUDOERS
 from AnonXMusic.utils.database import (
     get_active_chats,
@@ -171,6 +171,7 @@ async def auto_clean():
 async def auto_clean_cache():
     """Periodically clean up expired files"""
     while not await asyncio.sleep(CACHE_SLEEP):
+        count = 0
         try:
             current_time = time.time()
             expired_files = [
@@ -185,8 +186,10 @@ async def auto_clean_cache():
                     if os.path.exists(file_path):
                         os.remove(file_path)
                         file_cache.pop(file_path, None)
+                        count += 1
                 except:
                     continue
+            LOGGER(__name__).info("CLeaned %s files", count)
         except:
             continue
 
