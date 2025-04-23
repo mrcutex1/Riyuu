@@ -3,7 +3,7 @@ import os
 from config import autoclean
 
 
-async def auto_clean(popped):
+def auto_clean(popped):
     try:
         rem = popped["file"]
         autoclean.remove(rem)

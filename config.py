@@ -54,7 +54,7 @@ SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/+JoSPjg4d91QzMWNl")
 # Set this to True if you want the assistant to automatically leave chats after an interval
 AUTO_LEAVING_ASSISTANT = bool(getenv("AUTO_LEAVING_ASSISTANT", True))
 ASSISTANT_LEAVE_TIME = int(getenv("ASSISTANT_LEAVE_TIME",  5400))
-
+AUTO_DOWNLOADS_CLEAR = getenv("AUTO_DOWNLOADS_CLEAR", "True")
 
 # Get this credentials from https://developer.spotify.com/dashboard
 SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", "1c21247d714244ddbb09925dac565aed")
@@ -72,9 +72,6 @@ TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", 20971520))
 
 PRIVATE_BOT_MODE_MEM = int(getenv("PRIVATE_BOT_MODE_MEM", 1))
 
-TUBED_API = getenv("TUBED_API" , None)
-CACHE_DURATION = int(getenv("CACHE_DURATION" , "3600"))  #60*60*24
-CACHE_SLEEP = int(getenv("CACHE_SLEEP" , "1800"))   #60*60
 
 
 # Get your pyrogram v2 session from @StringFatherBot on Telegram
@@ -91,7 +88,6 @@ lyrical = {}
 votemode = {}
 autoclean = []
 confirmer = {}
-file_cache: dict[str, float] = {}
 
 START_IMG_URL = ["https://te.legra.ph/file/5fd13f2cc0d03bce9f7f2.jpg",
                  "https://te.legra.ph/file/c15d01b3e6b40ea141dc9.jpg",

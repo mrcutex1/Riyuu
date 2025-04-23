@@ -1,6 +1,7 @@
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, Message
 
+from AnonXMusic.utils.stream.autoclear import auto_clean
 import config
 from AnonXMusic import YouTube, app
 from AnonXMusic.core.call import Anony
@@ -37,8 +38,8 @@ async def skip(cli, message: Message, _, chat_id):
                             except:
                                 return await message.reply_text(_["admin_12"])
                             if popped:
-                                rem = popped["file"]
-                                autoclean.remove(rem)
+                                if config.AUTO_DOWNLOADS_CLEAR == str(True):
+                                    auto_clean(popped)
                             if not check:
                                 try:
                                     await message.reply_text(
@@ -66,8 +67,8 @@ async def skip(cli, message: Message, _, chat_id):
         try:
             popped = check.pop(0)
             if popped:
-                rem = popped["file"]
-                autoclean.remove(rem)
+                if config.AUTO_DOWNLOADS_CLEAR == str(True):
+                    auto_clean(popped)
             if not check:
                 await message.reply_text(
                     text=_["admin_6"].format(

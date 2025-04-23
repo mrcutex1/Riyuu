@@ -1,12 +1,10 @@
 import asyncio
-import os
-import time
 from pyrogram import filters
 from pyrogram.types import Message
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.errors import FloodWait
 
-from AnonXMusic import app, LOGGER
+from AnonXMusic import app
 from AnonXMusic.misc import SUDOERS
 from AnonXMusic.utils.database import (
     get_active_chats,
@@ -17,7 +15,7 @@ from AnonXMusic.utils.database import (
 )
 from AnonXMusic.utils.decorators.language import language
 from AnonXMusic.utils.formatters import alpha_to_int
-from config import adminlist, CACHE_DURATION, CACHE_SLEEP ,file_cache, autoclean
+from config import adminlist
 
 IS_BROADCASTING = False
 
@@ -167,32 +165,5 @@ async def auto_clean():
         except:
             continue
 
-
-async def auto_clean_cache():
-    """Periodically clean up expired files"""
-    while not await asyncio.sleep(CACHE_SLEEP):
-        count = 0
-        try:
-            current_time = time.time()
-            expired_files = [
-                file_path
-                for file_path, last_access in file_cache.items()
-                if current_time - last_access > CACHE_DURATION
-                and file_path not in autoclean
-            ]
-            
-            for file_path in expired_files:
-                try:
-                    if os.path.exists(file_path):
-                        os.remove(file_path)
-                        file_cache.pop(file_path, None)
-                        count += 1
-                except:
-                    continue
-            LOGGER(__name__).info("CLeaned %s files", count)
-        except:
-            continue
-
-asyncio.create_task(auto_clean_cache())
 
 asyncio.create_task(auto_clean())

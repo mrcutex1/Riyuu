@@ -20,6 +20,7 @@ from AnonXMusic.utils.database import (
 from AnonXMusic.utils.decorators.language import languageCB
 from AnonXMusic.utils.formatters import seconds_to_min
 from AnonXMusic.utils.inline import close_markup, stream_markup, stream_markup_timer
+from AnonXMusic.utils.stream.autoclear import auto_clean
 from AnonXMusic.utils.thumbnails import get_thumb
 from config import (
     BANNED_USERS,
@@ -33,6 +34,7 @@ from config import (
     votemode,
     autoclean,
 )
+import config
 from strings import get_string
 
 checker = {}
@@ -165,8 +167,8 @@ async def del_back_playlist(client, CallbackQuery:CallbackQuery, _):
             try:
                 popped = check.pop(0)
                 if popped:
-                    rem = popped["file"]
-                    autoclean.remove(rem)
+                    if config.AUTO_DOWNLOADS_CLEAR == str(True):
+                        auto_clean(popped)
                 if not check:
                     await CallbackQuery.edit_message_text(
                         f"➻ sᴛʀᴇᴀᴍ sᴋɪᴩᴩᴇᴅ 🎄\n│ \n└ʙʏ : {mention} 🥀"
